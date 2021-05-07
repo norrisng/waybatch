@@ -12,12 +12,17 @@ def archive_urls(url_list: [], num_threads=4):
     Archives a list of URLs on the Wayback Machine.
     Multithreaded for efficiency.
     :param url_list:    list of URLs to archive
-    :param num_threads: number of parallel archive requests. Defaults to 3
+    :param num_threads: number of parallel archive requests. Defaults to 4.
+                        Higher thread counts increase the risk of rate limits and/or IP bans!
     """
 
     archive_queue = queue.Queue()
 
     def worker(work_queue):
+        """
+        A worker for the archive queue.
+        :param work_queue: the queue containing all the URLs to archive
+        """
         while not work_queue.empty():
             a_url = work_queue.get()
 
@@ -60,6 +65,9 @@ def archive_urls(url_list: [], num_threads=4):
 
 
 class Wayback:
+    """
+    Helper class for interfacing withi waybackpy
+    """
 
     USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'
 
@@ -89,6 +97,11 @@ class Wayback:
             return False
 
     def archive_date(self, url: str) -> datetime:
+        """
+        Get the date of when the given URL was last archived.
+        :param url: webpage URL
+        :return:    timestamp of most recent archive. `None` if never archived.
+        """
         wayback = self._wayback_setup(url)
         try:
             return wayback.newest().timestamp
@@ -99,7 +112,7 @@ class Wayback:
         """
         Archives a webpage.
         :param url: URL of webpage to archive
-        :param no_dup: if True, then don't archive if it already exists
+        :param no_dup: if True, then don't archive if a snapshot already exists, regardless of its age.
         """
         wayback = self._wayback_setup(url)
         try:
@@ -111,6 +124,11 @@ class Wayback:
             raise e
 
     def get_archive(self, url: str) -> str:
+        """
+        Retrieves the most recent snapshot of a webpage.
+        :param url: webpage URL
+        :return:    HTMl of requested webpage. None if there are no snapshots.
+        """
         wayback = self._wayback_setup(url)
         try:
             archive = wayback.newest()

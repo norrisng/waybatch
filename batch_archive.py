@@ -3,6 +3,9 @@ import wayback_helper
 
 
 def batch_archive():
+    """
+    Main function for waybatch
+    """
 
     # Parse a given text file
     parser = ArgumentParser()
