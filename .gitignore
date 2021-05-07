@@ -2,5 +2,11 @@
 __pycache__/
 venv/
 
+# PyInstaller
+dist/
+build/
+*.manifest
+*.spec
+
 # Text file for testing purposes. Create your own!
 testfile.txt
