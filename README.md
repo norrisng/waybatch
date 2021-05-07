@@ -2,8 +2,6 @@
 
 *A tool to batch archive URLs to the Wayback Machine*
 
----
-
 ## How to use
 
 1. Place all URLs inside a text file in the root directory. The text file should have only one URL per line.
