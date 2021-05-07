@@ -1,0 +1,6 @@
+.idea/
+__pycache__/
+venv/
+
+# Text file for testing purposes. Create your own!
+testfile.txt
